@@ -1,8 +1,14 @@
-FROM ocaml/opam:alpine-ocaml-4.12
+FROM ocaml/opam:alpine-ocaml-5.1
+
+USER root
 
 # hadolint ignore=DL3004
-RUN sudo apk add --no-cache linux-headers \
-    && opam install ocamlbuild.0.14.0 \
-    && opam install core.v0.14.1
+RUN apk add --no-cache linux-headers
 
-ENV PATH="/home/opam/.opam/4.12/bin:${PATH}"
+USER opam
+
+RUN opam install ocamlbuild \
+    && opam install core \
+    && opam install core_unix
+
+ENV PATH="/home/opam/.opam/5.1/bin:${PATH}"
